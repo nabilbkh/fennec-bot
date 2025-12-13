@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: fennec-bot
+    runtime: python
+    plan: free
+    region: frankfurt
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    envVars:
+      - key: TOKEN
+        sync: false
