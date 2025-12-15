@@ -1,10 +1,9 @@
-import os
 import logging
+import os
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, ReplyKeyboardMarkup, KeyboardButton
 from telegram.ext import Application, CommandHandler, MessageHandler, CallbackQueryHandler, ContextTypes, filters
 import json
 from datetime import datetime
-import os
 
 # إعداد السجلات
 logging.basicConfig(
@@ -629,8 +628,12 @@ async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def main():
     """الدالة الرئيسية"""
-    # ضع TOKEN الخاص بك هنا
-    TOKEN = TOKEN = os.getenv("TOKEN")
+    # استخدام التوكن من متغيرات البيئة
+    TOKEN = os.getenv("TOKEN")
+    
+    if not TOKEN:
+        logger.error("❌ التوكن غير موجود! تأكد من إضافة TOKEN في Environment Variables")
+        return
     
     # إنشاء التطبيق
     app = Application.builder().token(TOKEN).build()
@@ -656,7 +659,7 @@ def main():
     
     # بدء البوت
     logger.info("🦊 بوت أكاديمية الفنك يعمل الآن...")
-    app.run_polling(allowed_updates=Update.ALL_TYPES)
+    app.run_polling(allowed_updates=Update.ALL_TYPES, drop_pending_updates=True)
 
 if __name__ == '__main__':
     main()
